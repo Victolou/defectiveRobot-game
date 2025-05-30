@@ -15,6 +15,5 @@ position = Vector2(640, -95)
 position = Vector2(640, 487)
 
 [node name="crusher" parent="." instance=ExtResource("3_k2fmo")]
-position = Vector2(-219, 205)
 
 [connection signal="on_back_crusher" from="player" to="." method="_on_player_on_back_crusher"]
