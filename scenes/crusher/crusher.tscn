@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6vc2sd0p66j1"]
+
+[ext_resource type="Script" uid="uid://5vwvp771ofbu" path="res://scenes/crusher/crusher.gd" id="1_ipyxr"]
+[ext_resource type="Texture2D" uid="uid://bpn1vlui4c5ls" path="res://assets/sprites/environment/crusher.png" id="2_sq5ym"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ugydg"]
+size = Vector2(500, 499)
+
+[node name="crusher" type="Area2D"]
+script = ExtResource("1_ipyxr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sq5ym")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_ugydg")
