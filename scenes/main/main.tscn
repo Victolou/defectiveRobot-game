@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bkevwyf8jh045"]
+[gd_scene load_steps=9 format=3 uid="uid://bkevwyf8jh045"]
 
 [ext_resource type="PackedScene" uid="uid://cayd0x34pllg7" path="res://scenes/player/player.tscn" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://bbyfkks628a1h" path="res://scenes/main/main.gd" id="1_l3cfh"]
-[ext_resource type="PackedScene" uid="uid://dbyoow1317p4k" path="res://scenes/UI/home/menu_home.tscn" id="2_6q06x"]
+[ext_resource type="PackedScene" uid="uid://mwrp8av8xxdi" path="res://scenes/UI/home/home.tscn" id="2_hujxm"]
 [ext_resource type="PackedScene" uid="uid://d22o5dv7iq6iq" path="res://scenes/platform/platform.tscn" id="2_iuonh"]
+[ext_resource type="PackedScene" uid="uid://c0218mdvjdrqi" path="res://scenes/UI/stats/stats.tscn" id="3_hujxm"]
 [ext_resource type="PackedScene" uid="uid://dc0howu75tr8v" path="res://scenes/crusher/crusher.tscn" id="3_k2fmo"]
+[ext_resource type="PackedScene" uid="uid://b8jyydq6ipjr3" path="res://scenes/spawner/spawner.tscn" id="5_b1x3f"]
 [ext_resource type="PackedScene" uid="uid://dl6iygbqmlytq" path="res://scenes/background/background.tscn" id="6_ow5a4"]
 
 [node name="main" type="Node2D"]
@@ -12,20 +14,41 @@ script = ExtResource("1_l3cfh")
 
 [node name="background" parent="." instance=ExtResource("6_ow5a4")]
 
-[node name="menuHome" parent="." instance=ExtResource("2_6q06x")]
+[node name="stats" parent="." instance=ExtResource("3_hujxm")]
 
 [node name="player" parent="." instance=ExtResource("1_hyk8p")]
 position = Vector2(640, -95)
 
+[node name="crusher" parent="." instance=ExtResource("3_k2fmo")]
+position = Vector2(-250, 7)
+
+[node name="spawner" parent="." instance=ExtResource("5_b1x3f")]
+PLAYER_NODE = NodePath("../player")
+
 [node name="platform" parent="." instance=ExtResource("2_iuonh")]
 position = Vector2(640, 487)
 
-[node name="crusher" parent="." instance=ExtResource("3_k2fmo")]
-position = Vector2(-250, -3)
+[node name="home" parent="." instance=ExtResource("2_hujxm")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 648.0
+offset_top = 318.0
+offset_right = 648.0
+offset_bottom = 318.0
 
-[connection signal="on_start_game" from="menuHome" to="." method="_on_menu_home_on_start_game"]
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="on_back_crusher" from="player" to="." method="_on_player_on_back_crusher"]
 [connection signal="on_player_is_on_floor" from="player" to="." method="_on_player_on_player_is_on_floor"]
 [connection signal="on_player_no_energy" from="player" to="." method="_on_player_on_player_no_energy"]
 [connection signal="on_player_crusher" from="crusher" to="." method="_on_crusher_on_player_crusher"]
 [connection signal="on_player_reached" from="crusher" to="." method="_on_crusher_on_player_reached"]
+[connection signal="on_waste_crusher" from="crusher" to="." method="_on_crusher_on_waste_crusher"]
+[connection signal="on_waste_reached" from="crusher" to="." method="_on_crusher_on_waste_reached"]
+[connection signal="on_battery_crash" from="spawner" to="." method="_on_spawner_on_battery_crash"]
+[connection signal="on_waste_crash" from="spawner" to="." method="_on_spawner_on_waste_crash"]
+[connection signal="on_start_game" from="home" to="." method="_on_home_on_start_game"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

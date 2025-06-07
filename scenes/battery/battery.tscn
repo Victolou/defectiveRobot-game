@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk1f7lu0rvvil"]
+
+[ext_resource type="Script" uid="uid://c6dy8jnyw08bx" path="res://scenes/battery/battery.gd" id="1_5d3fe"]
+[ext_resource type="Texture2D" uid="uid://csgmnq0qkp713" path="res://assets/sprites/entitles/battery.png" id="2_n4s2d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g32y3"]
+radius = 16.0
+height = 54.0
+
+[node name="battery" type="Node2D"]
+script = ExtResource("1_5d3fe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_n4s2d")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_g32y3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(52, 0)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

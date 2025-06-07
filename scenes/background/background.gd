@@ -22,11 +22,11 @@ func set_running():
 	is_layer0_running = true
 	is_layer1_running = true
 
-func moving(layer: ParallaxLayer, delta, path: bool = false):
+func moving(parallax_layer: ParallaxLayer, delta, path: bool = false):
 	if path:
-		layer.motion_offset.x += speed_layer0.x * delta
+		parallax_layer.motion_offset.x += speed_layer0.x * delta
 	else:
-		layer.motion_offset.x -= speed_layer0.x * delta
+		parallax_layer.motion_offset.x -= speed_layer0.x * delta
 
 func change_direction():
 	direction = !direction

@@ -1,4 +1,4 @@
-class_name MenuHome extends Control
+class_name Home extends Control
 
 signal on_start_game
 
@@ -8,3 +8,6 @@ func _input(event):
 		
 func _on_button_pressed() -> void:
 	on_start_game.emit()
+
+func _on_button_2_pressed() -> void:
+	print("funcona")

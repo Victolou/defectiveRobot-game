@@ -53,6 +53,15 @@ ready={
 
 locale/include_text_server_data=true
 
+[layer_names]
+
+2d_physics/layer_1="environment"
+2d_physics/layer_2="player"
+2d_physics/layer_3="crusher"
+2d_physics/layer_4="waste"
+2d_physics/layer_5="battery"
+2d_physics/layer_6="transform"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

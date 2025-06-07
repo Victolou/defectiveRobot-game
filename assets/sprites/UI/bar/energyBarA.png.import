@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpn1vlui4c5ls"
-path="res://.godot/imported/crusher.png-61c62044b716e935f3dc174495da915d.ctex"
+uid="uid://bsp3emfx1g588"
+path="res://.godot/imported/energyBarA.png-03b6a5c88fdcc0a11d2900f57a08c841.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/environment/crusher.png"
-dest_files=["res://.godot/imported/crusher.png-61c62044b716e935f3dc174495da915d.ctex"]
+source_file="res://assets/sprites/UI/bar/energyBarA.png"
+dest_files=["res://.godot/imported/energyBarA.png-03b6a5c88fdcc0a11d2900f57a08c841.ctex"]
 
 [params]
 

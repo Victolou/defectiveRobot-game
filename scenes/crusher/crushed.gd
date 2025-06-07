@@ -2,17 +2,20 @@ class_name Crusher extends Node2D
 
 signal on_player_reached
 signal on_player_crusher
+signal on_waste_reached
+signal on_waste_crusher
 
 @onready var image_crusher: Sprite2D = %imageCrusher
 
 @export var move_speed_x: float = 300.0
-@export var move_speed_y: float = 3500.0
+@export var move_speed_y: float = 800.0
 @export var upper_limit: float = 0.0
 @export var lower_limit: float = 205.0
 @export var left_limit: float = 0.0
 
 var crusher_running: bool = false
 var moving_down: bool = false
+var moving_stop: bool = false
 
 var external_pushback := 0.0
 var pushback_decay := 10
@@ -40,6 +43,11 @@ func _process(delta: float) -> void:
 		if position.y <= upper_limit:
 			position.y = upper_limit
 	
+	if !moving_stop:
+		if position.y == lower_limit:
+			moving_down = false
+
+	
 func set_running() -> void:
 	crusher_running = !crusher_running
 	
@@ -50,14 +58,25 @@ func apply_pushback(amount: float) -> void:
 	external_pushback += amount
 
 func kill_player() -> void:
+	moving_stop = true
 	move_speed_x = 0
 	moving_down = true
 	position.y = lower_limit
+	
+func up_crusher() -> void:
+	moving_down = false
+	
+func lower_crusher() -> void:
+	moving_down = true
 
-func _on_player_reached_body_entered(body: Node2D) -> void:
-	if body is Player:
-		emit_signal("on_player_reached", body) 
+func _on_reached_body_entered(_body: Node2D) -> void:
+	on_player_reached.emit()
 
-func _on_player_crusher_body_entered(body: Node2D) -> void:
-	if body is Player:
-		emit_signal("on_player_crusher", body) 
+func _on_crush_body_entered(_body: Node2D) -> void:
+	on_player_crusher.emit()
+	
+func _on_reached_area_entered(_area: Area2D) -> void:
+	on_waste_reached.emit()
+	
+func _on_crush_area_entered(_area: Area2D) -> void:
+	on_waste_crusher.emit()
