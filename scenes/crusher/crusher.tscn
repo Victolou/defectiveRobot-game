@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://bpn1vlui4c5ls" path="res://assets/sprites/entitles/crusher.png" id="2_sq5ym"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ipyxr"]
-size = Vector2(58, 882)
+size = Vector2(4, 881)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sq5ym"]
-size = Vector2(4, 876.5)
+size = Vector2(3, 879)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugydg"]
-size = Vector2(500, 63)
+size = Vector2(1279, 87.5)
 
 [node name="crushed" type="Node2D"]
 script = ExtResource("1_pneob")
@@ -25,28 +25,28 @@ collision_layer = 4
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="reached"]
-position = Vector2(280, 188)
+position = Vector2(732, 188.5)
 shape = SubResource("RectangleShape2D_ipyxr")
 
-[node name="crush" type="Area2D" parent="."]
+[node name="lowering" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="crush"]
-position = Vector2(-18, 187)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lowering"]
+position = Vector2(289.5, 189.5)
 shape = SubResource("RectangleShape2D_sq5ym")
 
-[node name="wasteCrush" type="Area2D" parent="."]
+[node name="crushing" type="Area2D" parent="."]
 collision_layer = 32
-collision_mask = 8
+collision_mask = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wasteCrush"]
-position = Vector2(0, 180)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="crushing"]
+position = Vector2(0.5, 192.25)
 shape = SubResource("RectangleShape2D_ugydg")
-debug_color = Color(0.928598, 0.212519, 0.416141, 0.42)
+debug_color = Color(0.15815, 0.322739, 0.146502, 0.42)
 
 [connection signal="area_entered" from="reached" to="." method="_on_reached_area_entered"]
 [connection signal="body_entered" from="reached" to="." method="_on_reached_body_entered"]
-[connection signal="area_entered" from="crush" to="." method="_on_crush_area_entered"]
-[connection signal="body_entered" from="crush" to="." method="_on_crush_body_entered"]
-[connection signal="area_entered" from="wasteCrush" to="." method="_on_waste_crusher_area_entered"]
+[connection signal="area_entered" from="lowering" to="." method="_on_lowering_area_entered"]
+[connection signal="body_entered" from="lowering" to="." method="_on_lowering_body_entered"]
+[connection signal="body_entered" from="crushing" to="." method="_on_crushing_body_entered"]

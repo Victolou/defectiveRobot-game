@@ -8,6 +8,3 @@ func _input(event):
 		
 func _on_button_pressed() -> void:
 	on_start_game.emit()
-
-func _on_button_2_pressed() -> void:
-	print("funcona")

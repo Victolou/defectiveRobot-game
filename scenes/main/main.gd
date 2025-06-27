@@ -13,6 +13,8 @@ func _ready() -> void:
 	
 func _process(_delta: float) -> void:
 	stats.update_velocity_bar(player.power_advantage)
+	spawner.set_extra_speed_to_waste(player.power_advantage * 200)
+	background.set_extra_speed_layer0(player.power_advantage * 200)
 
 func _on_home_on_start_game() -> void:
 	home.hide()
@@ -29,20 +31,11 @@ func _on_player_on_back_crusher() -> void:
 
 func _on_crusher_on_player_reached() -> void:
 	crusher.up_crusher()
-	spawner.stop()
-	player.set_reached()
-	player.set_power_advantage(0)
-	background.change_direction()
-	
-func _on_crusher_on_player_crusher() -> void:
-	background.stop_layer0()
-	background.stop_layer1()
-	crusher.kill_player()
-	
+
 func _on_crusher_on_waste_reached() -> void:
 	crusher.up_crusher()
 	
-func _on_crusher_on_waste_crusher() -> void:
+func _on_crusher_on_waste_lowering() -> void:
 	crusher.lower_crusher()
 
 func _on_spawner_on_waste_crash() -> void:
@@ -54,6 +47,18 @@ func _on_spawner_on_battery_crash() -> void:
 	
 func _on_player_on_player_no_energy() -> void:
 	crusher.set_external_pushback(0.0)
+	player.set_power_advantage(0.0)
+	background.change_direction()
+	
+func _on_crusher_on_player_end() -> void:
+	crusher.kill_player()
+	player.set_trapped()
+	player.set_power_advantage(0)
+	spawner.stop()
+	background.stop_layer0()
+	background.stop_layer1()
 	
 func _on_timer_timeout() -> void:
 	pass # Replace with function body.
+	
+	

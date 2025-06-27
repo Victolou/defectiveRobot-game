@@ -33,7 +33,12 @@ func stop() -> void:
 			if is_instance_of(child, t):
 				child.set_move_speed(0)
 				break
-				
+
+func set_extra_speed_to_waste(value: float) -> void:
+	for child in get_children():
+		if is_instance_of(child, Waste):
+			child.set_extra_speed_layer1(value)
+
 #WASTE
 func spawn_waste() -> void:
 	var waste_instance: Waste = WASTE_SCENE.instantiate()
@@ -65,9 +70,9 @@ func on_battery_hit_player() -> void:
 	
 func _on_timer_battery_timeout() -> void:
 	if not cooldown_battery_timer.is_stopped():
-		return  # Aún en cooldown, no se permite otro respawn
+		return
 	
 	var prob = respawn_probability(player.energy, player.energy_limit)
 	if randf() < prob:
 		spawn_battery()
-		cooldown_battery_timer.start()  # inicia cooldown de 2 segundos
+		cooldown_battery_timer.start()

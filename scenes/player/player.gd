@@ -15,7 +15,7 @@ signal on_player_no_energy
 @export var limit_power_advantage: float = 5
 
 var player_running: bool = false
-var reached = false
+var trapped = false
 var was_on_floor: bool = false
 
 var input_left: bool = true
@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y += gravity * delta
 		velocity.y = min(velocity.y , max_speed)
 	
-	if is_on_floor() and (energy > 0 and !reached):
+	if is_on_floor() and (energy > 0 and !trapped):
 		if not was_on_floor:
 			on_player_is_on_floor.emit()
 			was_on_floor = true
@@ -57,8 +57,8 @@ func _physics_process(delta: float) -> void:
 func set_running() -> void:
 	player_running = !player_running
 
-func set_reached():
-	reached = !reached
+func set_trapped():
+	trapped = !trapped
 
 func set_power_advantage(value: float):
 	power_advantage = value

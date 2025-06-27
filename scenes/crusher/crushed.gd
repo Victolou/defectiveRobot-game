@@ -1,11 +1,12 @@
 class_name Crusher extends Node2D
 
 signal on_player_reached
-signal on_player_crusher
 signal on_waste_reached
-signal on_waste_crusher
+signal on_waste_lowering
+signal on_player_end
 
 @onready var image_crusher: Sprite2D = %imageCrusher
+@onready var reached: Area2D = $reached
 
 @export var move_speed_x: float = 300.0
 @export var move_speed_y: float = 800.0
@@ -38,10 +39,12 @@ func _process(delta: float) -> void:
 		position.y += move_speed_y * delta
 		if position.y >= lower_limit:
 			position.y = lower_limit
+			reached.get_child(0).call_deferred("set_disabled", false)
 	else:
 		position.y -= move_speed_y * delta
 		if position.y <= upper_limit:
 			position.y = upper_limit
+			
 	
 	if !moving_stop:
 		if position.y == lower_limit:
@@ -61,7 +64,6 @@ func kill_player() -> void:
 	moving_stop = true
 	move_speed_x = 0
 	moving_down = true
-	position.y = lower_limit
 	
 func up_crusher() -> void:
 	moving_down = false
@@ -70,13 +72,19 @@ func lower_crusher() -> void:
 	moving_down = true
 
 func _on_reached_body_entered(_body: Node2D) -> void:
+	reached.get_child(0).call_deferred("set_disabled", true)
 	on_player_reached.emit()
 
-func _on_crush_body_entered(_body: Node2D) -> void:
-	on_player_crusher.emit()
+func _on_lowering_body_entered(body: Node2D) -> void:
+	if body.name == "player":
+		position.y = lower_limit
 	
 func _on_reached_area_entered(_area: Area2D) -> void:
+	reached.get_child(0).call_deferred("set_disabled", true)
 	on_waste_reached.emit()
 	
-func _on_crush_area_entered(_area: Area2D) -> void:
-	on_waste_crusher.emit()
+func _on_lowering_area_entered(_area: Area2D) -> void:
+	on_waste_lowering.emit()
+
+func _on_crushing_body_entered(_body: Node2D) -> void:
+	on_player_end.emit()
