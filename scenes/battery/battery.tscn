@@ -1,17 +1,77 @@
-[gd_scene load_steps=4 format=3 uid="uid://bk1f7lu0rvvil"]
+[gd_scene load_steps=12 format=3 uid="uid://bk1f7lu0rvvil"]
 
 [ext_resource type="Script" uid="uid://c6dy8jnyw08bx" path="res://scenes/battery/battery.gd" id="1_5d3fe"]
-[ext_resource type="Texture2D" uid="uid://csgmnq0qkp713" path="res://assets/sprites/entitles/battery.png" id="2_n4s2d"]
+[ext_resource type="Texture2D" uid="uid://jy2go7u86ybu" path="res://assets/sprites/entitles/battery.png" id="2_n4s2d"]
+[ext_resource type="Texture2D" uid="uid://b7rywjpjybylj" path="res://assets/sprites/entitles/guy0_battery.png" id="3_n4s2d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g32y3"]
+atlas = ExtResource("2_n4s2d")
+region = Rect2(0, 0, 191, 335)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7ilm"]
+atlas = ExtResource("2_n4s2d")
+region = Rect2(191, 0, 191, 335)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mtv2g"]
+atlas = ExtResource("2_n4s2d")
+region = Rect2(382, 0, 191, 335)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1caej"]
+atlas = ExtResource("2_n4s2d")
+region = Rect2(573, 0, 191, 335)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_im44n"]
+atlas = ExtResource("2_n4s2d")
+region = Rect2(764, 0, 191, 335)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0bej"]
+atlas = ExtResource("2_n4s2d")
+region = Rect2(955, 0, 191, 335)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8hyn7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g32y3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7ilm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mtv2g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1caej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_im44n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0bej")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 8.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g32y3"]
-radius = 16.0
-height = 54.0
+radius = 19.0
+height = 64.0
 
 [node name="battery" type="Node2D"]
+scale = Vector2(1.27507, 1.27507)
 script = ExtResource("1_5d3fe")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_n4s2d")
+[node name="body" type="AnimatedSprite2D" parent="."]
+position = Vector2(-0.0312495, 1)
+scale = Vector2(0.188809, 0.187105)
+sprite_frames = SubResource("SpriteFrames_8hyn7")
+animation = &"moving"
+
+[node name="guy" type="Sprite2D" parent="."]
+position = Vector2(-6, -3)
+scale = Vector2(0.180233, 0.180233)
+texture = ExtResource("3_n4s2d")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 16

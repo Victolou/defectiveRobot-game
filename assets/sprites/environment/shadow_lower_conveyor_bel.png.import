@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jy2go7u86ybu"
-path="res://.godot/imported/battery.png-7878de6ebdfbeec8dbf46037839c99f1.ctex"
+uid="uid://dpuelbk7twg01"
+path="res://.godot/imported/shadow_lower_conveyor_bel.png-51d8f2a2fe06fc95d67b0e2e58eaa039.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/entitles/battery.png"
-dest_files=["res://.godot/imported/battery.png-7878de6ebdfbeec8dbf46037839c99f1.ctex"]
+source_file="res://assets/sprites/environment/shadow_lower_conveyor_bel.png"
+dest_files=["res://.godot/imported/shadow_lower_conveyor_bel.png-51d8f2a2fe06fc95d67b0e2e58eaa039.ctex"]
 
 [params]
 

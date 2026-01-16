@@ -77,6 +77,7 @@ func _on_reached_body_entered(_body: Node2D) -> void:
 
 func _on_lowering_body_entered(body: Node2D) -> void:
 	if body.name == "player":
+		#lower_crusher()
 		position.y = lower_limit
 	
 func _on_reached_area_entered(_area: Area2D) -> void:

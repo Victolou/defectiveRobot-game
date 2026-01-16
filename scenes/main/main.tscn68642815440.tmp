@@ -45,7 +45,6 @@ offset_bottom = 318.0
 
 [connection signal="on_back_crusher" from="player" to="." method="_on_player_on_back_crusher"]
 [connection signal="on_player_is_on_floor" from="player" to="." method="_on_player_on_player_is_on_floor"]
-[connection signal="on_player_jump" from="player" to="." method="_on_player_on_player_jump"]
 [connection signal="on_player_no_energy" from="player" to="." method="_on_player_on_player_no_energy"]
 [connection signal="on_battery_crash" from="spawner" to="." method="_on_spawner_on_battery_crash"]
 [connection signal="on_waste_crash" from="spawner" to="." method="_on_spawner_on_waste_crash"]

@@ -18,7 +18,7 @@ func _process(delta: float) -> void:
 func set_move_speed(value: float) -> void:
 	move_speed = value
 	
-func set_extra_speed_layer1(value: float):
+func set_extra_speed(value: float):
 	extra_speed = value
 	
 func _on_area_2d_body_entered(_body: Node2D) -> void:

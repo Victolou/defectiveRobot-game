@@ -10,9 +10,10 @@ size = Vector2(4, 881)
 size = Vector2(3, 879)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugydg"]
-size = Vector2(1279, 87.5)
+size = Vector2(1316.3, 87.5)
 
 [node name="crushed" type="Node2D"]
+z_index = 2
 script = ExtResource("1_pneob")
 metadata/_edit_horizontal_guides_ = [629.0]
 
@@ -37,11 +38,13 @@ position = Vector2(289.5, 189.5)
 shape = SubResource("RectangleShape2D_sq5ym")
 
 [node name="crushing" type="Area2D" parent="."]
+position = Vector2(-18, 25)
+scale = Vector2(0.971503, 0.959512)
 collision_layer = 32
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="crushing"]
-position = Vector2(0.5, 192.25)
+position = Vector2(18.528, 124.021)
 shape = SubResource("RectangleShape2D_ugydg")
 debug_color = Color(0.15815, 0.322739, 0.146502, 0.42)
 

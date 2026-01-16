@@ -6,6 +6,11 @@ signal on_battery_crash
 const WASTE_SCENE = preload("res://scenes/waste/waste.tscn")
 const BATTERY_SCENE = preload("res://scenes/battery/battery.tscn")
 
+const GUY_0_BATTERY = preload("res://assets/sprites/entitles/guy0_battery.png")
+const GUY_1_BATTERY = preload("res://assets/sprites/entitles/guy1_battery.png")
+const GUY_2_BATTERY = preload("res://assets/sprites/entitles/guy2_battery.png")
+const GUY_3_BATTERY = preload("res://assets/sprites/entitles/guy3_battery.png")
+
 @export var PLAYER_NODE: NodePath
 
 @onready var player = get_node(PLAYER_NODE)
@@ -32,12 +37,13 @@ func stop() -> void:
 		for t in target_types:
 			if is_instance_of(child, t):
 				child.set_move_speed(0)
+				child.set_extra_speed(0)
 				break
 
 func set_extra_speed_to_waste(value: float) -> void:
 	for child in get_children():
 		if is_instance_of(child, Waste):
-			child.set_extra_speed_layer1(value)
+			child.set_extra_speed(value)
 
 #WASTE
 func spawn_waste() -> void:
@@ -62,6 +68,17 @@ func spawn_battery() -> void:
 	
 	battery_instance.position.x = viewport.get_visible_rect().end.x + 150
 	battery_instance.position.y = 300
+	
+	var num = randi_range(0, 3)
+	
+	const BATTERY_GUYS = {
+		0: GUY_0_BATTERY,
+		1: GUY_1_BATTERY,
+		2: GUY_2_BATTERY,
+		3: GUY_3_BATTERY
+	}
+	
+	battery_instance.get_node("guy").texture = BATTERY_GUYS[num]
 	
 	add_child(battery_instance)
 

@@ -36,8 +36,17 @@ func moving(parallax_layer: ParallaxLayer, delta: float, direction_right: bool):
 	var dir := 1 if direction_right else -1
 	parallax_layer.motion_offset.x += speed.x * dir * delta
 
-func change_direction():
+func change_direction_right():
 	direction = true
+
+func change_direction_left():
+	direction = false
+
+func play_layer0():
+	is_layer0_running = true
+	
+func play_layer1():
+	is_layer1_running = true
 
 func stop_layer0():
 	is_layer0_running = false

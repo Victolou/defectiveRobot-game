@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jy2go7u86ybu"
-path="res://.godot/imported/battery.png-7878de6ebdfbeec8dbf46037839c99f1.ctex"
+uid="uid://c7dlfly3ned1h"
+path="res://.godot/imported/red_screen.png-5570682e3328b521b660806a16e690c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/entitles/battery.png"
-dest_files=["res://.godot/imported/battery.png-7878de6ebdfbeec8dbf46037839c99f1.ctex"]
+source_file="res://assets/sprites/entitles/red_screen.png"
+dest_files=["res://.godot/imported/red_screen.png-5570682e3328b521b660806a16e690c2.ctex"]
 
 [params]
 

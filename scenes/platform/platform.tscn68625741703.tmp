@@ -263,7 +263,6 @@ animations = [{
 size = Vector2(1280, 144)
 
 [node name="platform" type="StaticBody2D"]
-z_index = 1
 collision_mask = 2
 script = ExtResource("1_34mie")
 
@@ -274,7 +273,7 @@ animation = &"moving"
 [node name="lower_conveyor_belt" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ikpbc")
 animation = &"moving"
-frame_progress = 0.94666
+frame_progress = 0.517403
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false

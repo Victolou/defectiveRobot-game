@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jy2go7u86ybu"
-path="res://.godot/imported/battery.png-7878de6ebdfbeec8dbf46037839c99f1.ctex"
+uid="uid://bf61p14up43ch"
+path="res://.godot/imported/player_death2.png-6cca6d7f2267a380ee0f985dc929972d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/entitles/battery.png"
-dest_files=["res://.godot/imported/battery.png-7878de6ebdfbeec8dbf46037839c99f1.ctex"]
+source_file="res://assets/sprites/entitles/player_death2.png"
+dest_files=["res://.godot/imported/player_death2.png-6cca6d7f2267a380ee0f985dc929972d.ctex"]
 
 [params]
 
