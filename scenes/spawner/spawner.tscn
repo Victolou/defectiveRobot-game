@@ -1,23 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8jyydq6ipjr3"]
+[gd_scene format=3 uid="uid://b8jyydq6ipjr3"]
 
 [ext_resource type="Script" uid="uid://c20b150e6akud" path="res://scenes/spawner/spawner.gd" id="1_eoeca"]
 
-[node name="spawner" type="Node"]
+[node name="spawner" type="Node" unique_id=1091577516]
 script = ExtResource("1_eoeca")
 
-[node name="timer_waste" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 3.0
-autostart = true
-
-[node name="timer_battery" type="Timer" parent="."]
+[node name="timer_battery" type="Timer" parent="." unique_id=774559392]
 unique_name_in_owner = true
 autostart = true
 
-[node name="cooldown_battery_timer" type="Timer" parent="."]
+[node name="cooldown_battery_timer" type="Timer" parent="." unique_id=1768898447]
 unique_name_in_owner = true
 wait_time = 2.0
 one_shot = true
 
-[connection signal="timeout" from="timer_waste" to="." method="_on_timer_waste_timeout"]
 [connection signal="timeout" from="timer_battery" to="." method="_on_timer_battery_timeout"]

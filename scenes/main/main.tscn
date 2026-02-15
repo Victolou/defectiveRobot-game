@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bkevwyf8jh045"]
+[gd_scene format=3 uid="uid://bkevwyf8jh045"]
 
 [ext_resource type="PackedScene" uid="uid://cayd0x34pllg7" path="res://scenes/player/player.tscn" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://bbyfkks628a1h" path="res://scenes/main/main.gd" id="1_l3cfh"]
@@ -9,28 +9,29 @@
 [ext_resource type="PackedScene" uid="uid://b8jyydq6ipjr3" path="res://scenes/spawner/spawner.tscn" id="5_b1x3f"]
 [ext_resource type="PackedScene" uid="uid://dl6iygbqmlytq" path="res://scenes/background/background.tscn" id="6_ow5a4"]
 
-[node name="main" type="Node2D"]
+[node name="main" type="Node2D" unique_id=1226028120]
 script = ExtResource("1_l3cfh")
 
-[node name="background" parent="." instance=ExtResource("6_ow5a4")]
+[node name="background" parent="." unique_id=1655028193 instance=ExtResource("6_ow5a4")]
 
-[node name="stats" parent="." instance=ExtResource("3_hujxm")]
+[node name="stats" parent="." unique_id=1954004428 instance=ExtResource("3_hujxm")]
 
-[node name="player" parent="." instance=ExtResource("1_hyk8p")]
+[node name="player" parent="." unique_id=1901463929 instance=ExtResource("1_hyk8p")]
 position = Vector2(640, -95)
 
-[node name="spawner" parent="." instance=ExtResource("5_b1x3f")]
+[node name="spawner" parent="." unique_id=785267177 instance=ExtResource("5_b1x3f")]
 PLAYER_NODE = NodePath("../player")
 
-[node name="platform" parent="." instance=ExtResource("2_iuonh")]
+[node name="platform" parent="." unique_id=723347078 instance=ExtResource("2_iuonh")]
 position = Vector2(640, 527)
 PLAYER_NODE = NodePath("../player")
+CRUSHER_NODE = NodePath("../crusher")
 BACKGROUND_NODE = NodePath("../background")
 
-[node name="crusher" parent="." instance=ExtResource("3_k2fmo")]
+[node name="crusher" parent="." unique_id=1602382721 instance=ExtResource("3_k2fmo")]
 position = Vector2(-640, 7)
 
-[node name="home" parent="." instance=ExtResource("2_hujxm")]
+[node name="home" parent="." unique_id=156140745 instance=ExtResource("2_hujxm")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -41,7 +42,7 @@ offset_top = 318.0
 offset_right = 648.0
 offset_bottom = 318.0
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=112433040]
 
 [connection signal="on_back_crusher" from="player" to="." method="_on_player_on_back_crusher"]
 [connection signal="on_player_is_on_floor" from="player" to="." method="_on_player_on_player_is_on_floor"]

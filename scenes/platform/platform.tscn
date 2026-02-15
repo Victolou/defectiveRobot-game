@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://d22o5dv7iq6iq"]
+[gd_scene format=3 uid="uid://d22o5dv7iq6iq"]
 
 [ext_resource type="Texture2D" uid="uid://m3103a87ga41" path="res://assets/sprites/environment/sprite_conveyor_belt.png" id="1_8pv2r"]
 [ext_resource type="Script" uid="uid://c0yykasnybehl" path="res://scenes/platform/platform.gd" id="1_34mie"]
@@ -262,30 +262,30 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7j252"]
 size = Vector2(1280, 144)
 
-[node name="platform" type="StaticBody2D"]
+[node name="platform" type="StaticBody2D" unique_id=1946114961]
 z_index = 1
 collision_mask = 2
 script = ExtResource("1_34mie")
 
-[node name="upper_conveyor_belt" type="AnimatedSprite2D" parent="."]
+[node name="upper_conveyor_belt" type="AnimatedSprite2D" parent="." unique_id=208528772]
 sprite_frames = SubResource("SpriteFrames_0ib20")
 animation = &"moving"
 
-[node name="lower_conveyor_belt" type="AnimatedSprite2D" parent="."]
+[node name="lower_conveyor_belt" type="AnimatedSprite2D" parent="." unique_id=518052526]
 sprite_frames = SubResource("SpriteFrames_ikpbc")
 animation = &"moving"
 frame_progress = 0.94666
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1362683365]
 visible = false
 sprite_frames = SubResource("SpriteFrames_vjtli")
 animation = &"run"
 frame_progress = 0.931323
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=460277862]
 visible = false
 texture = ExtResource("2_7j252")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=902206240]
 shape = SubResource("RectangleShape2D_7j252")
 one_way_collision = true

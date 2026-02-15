@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dc0howu75tr8v"]
+[gd_scene format=3 uid="uid://dc0howu75tr8v"]
 
 [ext_resource type="Script" uid="uid://djmrdcjsguatv" path="res://scenes/crusher/crushed.gd" id="1_pneob"]
-[ext_resource type="Texture2D" uid="uid://bpn1vlui4c5ls" path="res://assets/sprites/entitles/crusher.png" id="2_sq5ym"]
+[ext_resource type="Texture2D" uid="uid://bpn1vlui4c5ls" path="res://assets/sprites/entitles/crusher/crusher.png" id="2_sq5ym"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ipyxr"]
 size = Vector2(4, 881)
@@ -12,39 +12,39 @@ size = Vector2(3, 879)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugydg"]
 size = Vector2(1316.3, 87.5)
 
-[node name="crushed" type="Node2D"]
+[node name="crushed" type="Node2D" unique_id=1337570028]
 z_index = 2
 script = ExtResource("1_pneob")
 metadata/_edit_horizontal_guides_ = [629.0]
 
-[node name="imageCrusher" type="Sprite2D" parent="."]
+[node name="imageCrusher" type="Sprite2D" parent="." unique_id=527229890]
 unique_name_in_owner = true
 texture = ExtResource("2_sq5ym")
 
-[node name="reached" type="Area2D" parent="."]
+[node name="reached" type="Area2D" parent="." unique_id=196061222]
 collision_layer = 4
 collision_mask = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="reached"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="reached" unique_id=1987406146]
 position = Vector2(732, 188.5)
 shape = SubResource("RectangleShape2D_ipyxr")
 
-[node name="lowering" type="Area2D" parent="."]
+[node name="lowering" type="Area2D" parent="." unique_id=159189800]
 collision_layer = 4
 collision_mask = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lowering"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lowering" unique_id=1160106050]
 position = Vector2(289.5, 189.5)
 shape = SubResource("RectangleShape2D_sq5ym")
 
-[node name="crushing" type="Area2D" parent="."]
+[node name="crushing" type="Area2D" parent="." unique_id=225152974]
 position = Vector2(-18, 25)
 scale = Vector2(0.971503, 0.959512)
 collision_layer = 32
 collision_mask = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="crushing"]
-position = Vector2(18.528, 124.021)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="crushing" unique_id=23357097]
+position = Vector2(18.527998, 129.23198)
 shape = SubResource("RectangleShape2D_ugydg")
 debug_color = Color(0.15815, 0.322739, 0.146502, 0.42)
 

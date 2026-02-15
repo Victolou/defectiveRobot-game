@@ -1,9 +1,12 @@
-extends StaticBody2D
+class_name Platform extends StaticBody2D
 
 @export var PLAYER_NODE: NodePath
+@export var CRUSHER_NODE: NodePath
 @export var BACKGROUND_NODE: NodePath
 
 @onready var player = get_node(PLAYER_NODE)
+@onready var crusher = get_node(CRUSHER_NODE)
+
 @onready var background = get_node(BACKGROUND_NODE)
 
 @onready var upper_conveyor_belt: AnimatedSprite2D = $upper_conveyor_belt
@@ -18,7 +21,13 @@ var is_jumping := false
 
 var frames := 24
 var sprite_repeat_length := 6.9
-var animation_fps := 24.0
+# LO ULTIMO QUE ESTABA TOCANDO ERA ESTO PORQUE EL MOVIMIENDO DE LA CINTA ESTABARA RARO
+# ESTABA EN 24 Y LO CAMBIE A 250
+var animation_fps := 250.0
+var player_death = false
+
+func _ready() -> void:
+	crusher.on_crusher_killPlayer.connect(_on_player_death)
 
 func _process(_delta) -> void:
 	# Detectar primer aterrizaje del jugador
@@ -31,7 +40,8 @@ func _process(_delta) -> void:
 		
 	if player.death_played:
 		upper_conveyor_belt.speed_scale = 0
-		lower_conveyor_belt.speed_scale = 0
+		if player_death:
+			lower_conveyor_belt.speed_scale = 0
 		return
 
 	if player.input_jump and player.death_played == false:
@@ -81,3 +91,6 @@ func calculate_animation(animation: AnimatedSprite2D, anim_name: String) -> void
 
 	if not animation.is_playing():
 		animation.play()
+
+func _on_player_death() -> void:
+	player_death = true

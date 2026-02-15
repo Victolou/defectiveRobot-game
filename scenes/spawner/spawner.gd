@@ -6,15 +6,14 @@ signal on_battery_crash
 const WASTE_SCENE = preload("res://scenes/waste/waste.tscn")
 const BATTERY_SCENE = preload("res://scenes/battery/battery.tscn")
 
-const GUY_0_BATTERY = preload("res://assets/sprites/entitles/guy0_battery.png")
-const GUY_1_BATTERY = preload("res://assets/sprites/entitles/guy1_battery.png")
-const GUY_2_BATTERY = preload("res://assets/sprites/entitles/guy2_battery.png")
-const GUY_3_BATTERY = preload("res://assets/sprites/entitles/guy3_battery.png")
+const GUY_0_BATTERY = preload("res://assets/sprites/entitles/battery/guy0_battery.png")
+const GUY_1_BATTERY = preload("res://assets/sprites/entitles/battery/guy1_battery.png")
+const GUY_2_BATTERY = preload("res://assets/sprites/entitles/battery/guy2_battery.png")
+const GUY_3_BATTERY = preload("res://assets/sprites/entitles/battery/guy3_battery.png")
 
 @export var PLAYER_NODE: NodePath
 
-@onready var player = get_node(PLAYER_NODE)
-@onready var timer_waste: Timer = %timer_waste
+@onready var player: Player = get_node(PLAYER_NODE)
 @onready var timer_battery: Timer = %timer_battery
 @onready var cooldown_battery_timer: Timer = %cooldown_battery_timer
 
@@ -22,13 +21,15 @@ var viewport: Viewport
 
 func _ready() -> void:
 	viewport = get_viewport()
+	player.on_player_start_advancing.connect(_on_player_start_advancing)
+	player.on_player_stop_advancing.connect(_on_player_stop_advancing)
+	player.on_player_limit_advancing.connect(_on_player_limit_advancing)
 
 #GENERAL
 func respawn_probability(value: float, value_limit: float) -> float:
 	return clamp(1.0 - (value / value_limit), 0.0, 1.0)
 	
 func stop() -> void:
-	timer_waste.stop()
 	timer_battery.stop()
 
 	var target_types = [Waste, Battery]
@@ -48,19 +49,23 @@ func set_extra_speed_to_waste(value: float) -> void:
 #WASTE
 func spawn_waste() -> void:
 	var waste_instance: Waste = WASTE_SCENE.instantiate()
+	waste_instance.z_index = 0
+	var random_number = randi() % 4  
+	
 	waste_instance.on_player_crash.connect(on_waste_hit_player)
 	
 	waste_instance.position.x = viewport.get_visible_rect().end.x + 150
 	waste_instance.position.y = 422.0
+	waste_instance.value_animation = random_number
 
 	add_child(waste_instance)
 
 func on_waste_hit_player() -> void:
 	on_waste_crash.emit()
-
-func _on_timer_waste_timeout() -> void:
-	spawn_waste()
 	
+func _on_player_limit_advancing() -> void:
+	spawn_waste()
+
 #BATTERY
 func spawn_battery() -> void:
 	var battery_instance: Battery = BATTERY_SCENE.instantiate()
@@ -93,3 +98,14 @@ func _on_timer_battery_timeout() -> void:
 	if randf() < prob:
 		spawn_battery()
 		cooldown_battery_timer.start()
+		
+#PLAYER EVENTS
+func _on_player_start_advancing() -> void:
+	for child in get_children():
+		if child is Waste:
+			child.set_can_move(true)
+
+func _on_player_stop_advancing() -> void:
+	for child in get_children():
+		if child is Waste:
+			child.set_can_move(false)

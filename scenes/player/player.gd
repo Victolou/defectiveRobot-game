@@ -7,6 +7,10 @@ signal on_back_crusher
 signal on_player_jump
 signal on_player_no_energy
 
+signal on_player_limit_advancing
+signal on_player_start_advancing
+signal on_player_stop_advancing
+
 @export var gravity: float = 1000.0
 @export var jump_force: float = 450.0
 @export var max_speed: float = 400.0
@@ -15,11 +19,14 @@ signal on_player_no_energy
 @export var energy_loss: float = 5
 @export var limit_power_advantage: float = 5
 
+#Tiene que ver con el waste para que avance 
+var limit_advancing: int = 0
+
 var energy_percentage
-var color_screen: String = 'green'
 
 var player_running: bool = false
 var trapped = false
+var has_crashed = false
 var was_on_floor: bool = false
 
 var input_left: bool = true
@@ -28,22 +35,32 @@ var input_jump: bool = true
 
 @onready var anim_screen: AnimatedSprite2D = $screen
 @onready var anim_robot: AnimatedSprite2D = $robot
+
 var death_played: bool = false
+var crushed: bool = false
 var has_touched_floor := false
 
+@onready var timer_drop: Timer = $Drop
 @onready var timer: Timer = $Timer
 var is_moving_recently: bool = false
 
 func _physics_process(delta: float) -> void:
-	
+	if death_played:
+		input_left = false
+		input_right = false
+		input_jump = false
+		
 	if player_running == false:
 		return
 		
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		velocity.y = min(velocity.y , max_speed)
+		if not death_played:
+			on_player_start_advancing.emit()
 	else:
-		input_jump = true
+		if is_on_floor() and not has_crashed:
+			input_jump = true
 		if not has_touched_floor:
 			has_touched_floor = true
 			
@@ -61,14 +78,34 @@ func _physics_process(delta: float) -> void:
 			calculate_reserves(energy_loss)
 			on_back_crusher.emit()
 			restart_move_timer()
+			on_player_start_advancing.emit()
+			limit_advancing +=1
 
 		elif Input.is_action_just_pressed("right") and input_right:
 			calculate_reserves(energy_loss)
 			on_back_crusher.emit()
 			restart_move_timer()
+			on_player_start_advancing.emit()
+			limit_advancing +=1
+			
+		# 🔁 Reset SOLO si está en el suelo y quieto
+		if is_on_floor() and not Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
+			on_player_stop_advancing.emit()
+			
+		if limit_advancing > 10:
+			on_player_limit_advancing.emit()
+			limit_advancing = 0
+			
+	if has_crashed:
+		input_left = false
+		input_right = false
+		input_jump = false
+		if timer_drop.is_stopped():
+			timer_drop.start()
 			
 	if energy == 0.0: 
 		on_player_no_energy.emit()
+		
 
 	set_color_screen()
 	animations_player()
@@ -94,19 +131,29 @@ func calculate_reserves(less_energy: float) -> void:
 		input_left = true
 
 func animations_player() -> void:
+	if crushed:
+		anim_robot.play("corpse")
+		return
+	
 	if death_played:
 		return
 	
 	if energy == 0:
 		set_animation("death")
 		death_played = true
+		on_player_stop_advancing.emit()
 		return
 	
-	if not is_on_floor() and velocity.y > 0 and not has_touched_floor:
+	if has_crashed:
+		if anim_robot.animation != "drop":
+			set_animation("drop")
+			return
+	
+	if not is_on_floor() and velocity.y > 0 and not has_touched_floor and has_crashed == false:
 		set_animation("jump", false, 3)
 		return
 	
-	if is_on_floor() and (energy > 0 and !trapped):
+	if is_on_floor() and (energy > 0 and !trapped) and has_crashed == false:
 		if Input.is_action_just_pressed("jump"):
 			set_animation("jump")
 		elif is_moving_recently:
@@ -117,7 +164,7 @@ func animations_player() -> void:
 func set_animation(anim_name: String, playing: bool = true, frame: int = -1) -> void:
 	if playing:
 		anim_robot.play(anim_name)
-		anim_screen.play(color_screen + "_" + anim_name)
+		anim_screen.play(anim_name)
 		anim_screen.frame = anim_robot.frame
 	else:
 		anim_robot.stop()
@@ -125,17 +172,19 @@ func set_animation(anim_name: String, playing: bool = true, frame: int = -1) -> 
 		if frame != -1:
 			anim_robot.animation = anim_name
 			anim_robot.frame = frame
-			anim_screen.animation = color_screen + "_" + anim_name
+			anim_screen.animation = anim_name
 			anim_screen.frame = frame
 
 func set_color_screen() -> void:
+	if not is_instance_valid(anim_screen):
+		return
 	energy_percentage = (energy / energy_limit) * 100 
 	if energy_percentage > 70 and energy_percentage <= 100:
-		color_screen = "green"
+		anim_screen.modulate = Color(0.545, 0.675, 0.059)
 	elif energy_percentage > 30 and energy_percentage < 69:
-		color_screen = "yellow"
+		anim_screen.modulate = Color(1.0, 0.843, 0.0)
 	elif energy_percentage > 0 and energy_percentage < 29:
-		color_screen = "red"
+		anim_screen.modulate = Color(0.827, 0.184, 0.184)
 
 func restart_move_timer() -> void:
 	is_moving_recently = true
@@ -143,3 +192,9 @@ func restart_move_timer() -> void:
 
 func _on_timer_timeout() -> void:
 	is_moving_recently = false
+
+func _on_drop_timeout() -> void:
+	has_crashed = false
+	input_left = true
+	input_right = true
+	input_jump = true

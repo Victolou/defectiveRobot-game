@@ -4,6 +4,7 @@ signal on_player_reached
 signal on_waste_reached
 signal on_waste_lowering
 signal on_player_end
+signal on_crusher_killPlayer
 
 @onready var image_crusher: Sprite2D = %imageCrusher
 @onready var reached: Area2D = $reached
@@ -64,6 +65,7 @@ func kill_player() -> void:
 	moving_stop = true
 	move_speed_x = 0
 	moving_down = true
+	on_crusher_killPlayer.emit()
 	
 func up_crusher() -> void:
 	moving_down = false

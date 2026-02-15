@@ -42,7 +42,7 @@ func _on_crusher_on_waste_lowering() -> void:
 	crusher.lower_crusher()
 
 func _on_spawner_on_waste_crash() -> void:
-	pass
+	player.has_crashed = true
 	
 func _on_spawner_on_battery_crash() -> void:
 	stats.update_energy_bar(20, true)
@@ -54,8 +54,8 @@ func _on_player_on_player_no_energy() -> void:
 	
 func _on_crusher_on_player_end() -> void:
 	player.death_played = true
+	player.crushed = true
 	player.position.y = 395.0
-	player.anim_robot.play("death2")
 	
 	if player.has_node("screen"):
 		var screen_node = player.get_node("screen")
