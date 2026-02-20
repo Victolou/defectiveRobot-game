@@ -4,6 +4,7 @@ class_name Main extends Node2D
 @onready var crusher: Crusher = $crusher
 @onready var home: Home = $home
 @onready var background: Background = $background
+@onready var conveyor_belt: ConveyorBelt = $conveyorBelt
 @onready var stats: Stats = $stats
 @onready var spawner: Spawner = $spawner
 
@@ -15,7 +16,6 @@ func _ready() -> void:
 	
 func _process(_delta: float) -> void:
 	if not player.death_played:
-		spawner.set_extra_speed_to_waste(200 + game_speed)
 		background.set_extra_speed_layer0(200 + game_speed)
 		background.set_extra_speed_layer1(200 + game_speed)
 
@@ -23,11 +23,12 @@ func _on_home_on_start_game() -> void:
 	home.hide()
 	stats.show()
 	player.set_running()
-	
-func _on_player_on_player_is_on_floor() -> void:
+
+func _on_player_on_landed_player() -> void:
 	crusher.set_running()
 	background.set_running()
-
+	conveyor_belt.set_running()
+	
 func _on_player_on_back_crusher() -> void:
 	stats.update_energy_bar(player.energy_loss)
 	crusher.apply_pushback(1)
@@ -50,7 +51,8 @@ func _on_spawner_on_battery_crash() -> void:
 	
 func _on_player_on_player_no_energy() -> void:
 	crusher.set_external_pushback(0.0)
-	background.change_direction_right()
+	background.change_layer0_direction("right")
+	background.change_layer1_direction("right")
 	
 func _on_crusher_on_player_end() -> void:
 	player.death_played = true
@@ -60,16 +62,37 @@ func _on_crusher_on_player_end() -> void:
 	if player.has_node("screen"):
 		var screen_node = player.get_node("screen")
 		screen_node.queue_free()
-	
+		
 	crusher.kill_player()
 	player.set_trapped()
 	spawner.stop()
-	background.stop_layer0()
-	background.stop_layer1()
+	conveyor_belt.is_stopping(true)
+	background.playings_layers(false)
+
+func _on_player_on_player_jumps_on_the_stage() -> void:
+	background.playings_layers(false)
 	
+	conveyor_belt.set_can_move(true)
+	conveyor_belt.change_top_direction("left")
+	conveyor_belt.change_bottom_direction("left")
+
+func _on_player_on_player_moves_forward_on_the_stage() -> void:
+	background.playings_layers(true)
+	background.change_layer0_direction("left")
+	background.change_layer1_direction("left")
+	
+	conveyor_belt.can_move_duration.start()
+	conveyor_belt.set_can_move(true)
+	if player.input_jump:
+		conveyor_belt.change_bottom_direction("right")
+
+func _on_player_on_player_has_stopped_on_the_stage() -> void:
+	background.playings_layers(true)
+	background.change_layer0_direction("right")
+	background.change_layer1_direction("right")
+		
+	conveyor_belt.set_can_move(false)
+	conveyor_belt.change_bottom_direction("left")
+
 func _on_timer_timeout() -> void:
 	game_speed += 50
-
-#borrable?
-func _on_player_on_player_jump() -> void:
-	pass

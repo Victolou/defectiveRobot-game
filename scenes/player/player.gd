@@ -1,15 +1,17 @@
 class_name Player
 extends CharacterBody2D
 
-signal on_player_is_on_floor
+signal on_landed_player
 signal on_back_crusher
-#borrable?
-signal on_player_jump
 signal on_player_no_energy
 
 signal on_player_limit_advancing
 signal on_player_start_advancing
 signal on_player_stop_advancing
+
+signal on_player_moves_forward_on_the_stage
+signal on_player_has_stopped_on_the_stage
+signal on_player_jumps_on_the_stage
 
 @export var gravity: float = 1000.0
 @export var jump_force: float = 450.0
@@ -25,11 +27,12 @@ var limit_advancing: int = 0
 var energy_percentage
 
 var player_running: bool = false
+var has_player_landed: bool= false
 var trapped = false
 var has_crashed = false
 var was_on_floor: bool = false
 
-var input_left: bool = true
+var input_left: bool = false
 var input_right: bool = true
 var input_jump: bool = true
 
@@ -37,60 +40,63 @@ var input_jump: bool = true
 @onready var anim_robot: AnimatedSprite2D = $robot
 
 var death_played: bool = false
+var has_touched_floor: bool = false
 var crushed: bool = false
-var has_touched_floor := false
 
 @onready var timer_drop: Timer = $Drop
 @onready var timer: Timer = $Timer
 var is_moving_recently: bool = false
+var variable: bool = true
 
 func _physics_process(delta: float) -> void:
-	if death_played:
-		input_left = false
-		input_right = false
-		input_jump = false
-		
 	if player_running == false:
 		return
 		
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		velocity.y = min(velocity.y , max_speed)
-		if not death_played:
+		if has_player_landed:
+			on_player_jumps_on_the_stage.emit()
 			on_player_start_advancing.emit()
 	else:
 		if is_on_floor() and not has_crashed:
 			input_jump = true
+			
 		if not has_touched_floor:
 			has_touched_floor = true
 			
-	if is_on_floor() and (energy > 0 and !trapped):
+	if is_on_floor() and (energy > 0 and !trapped) and not death_played:
 		if not was_on_floor:
-			on_player_is_on_floor.emit()
+			has_player_landed = true
+			on_landed_player.emit()
 			was_on_floor = true
 			
 		if Input.is_action_just_pressed("jump") and input_jump:
 			velocity.y -= jump_force
 			input_jump = false
-			on_player_jump.emit()
+			on_player_jumps_on_the_stage.emit()
 
 		if Input.is_action_just_pressed("left") and input_left:
 			calculate_reserves(energy_loss)
-			on_back_crusher.emit()
 			restart_move_timer()
+			on_back_crusher.emit()
 			on_player_start_advancing.emit()
+			on_player_moves_forward_on_the_stage.emit()
 			limit_advancing +=1
 
 		elif Input.is_action_just_pressed("right") and input_right:
 			calculate_reserves(energy_loss)
-			on_back_crusher.emit()
 			restart_move_timer()
+			on_back_crusher.emit()
 			on_player_start_advancing.emit()
+			on_player_moves_forward_on_the_stage.emit()
 			limit_advancing +=1
 			
-		# 🔁 Reset SOLO si está en el suelo y quieto
+		#Reset SOLO si está en el suelo y quieto
 		if is_on_floor() and not Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
+			on_player_has_stopped_on_the_stage.emit()
 			on_player_stop_advancing.emit()
+			
 			
 		if limit_advancing > 10:
 			on_player_limit_advancing.emit()
@@ -106,7 +112,6 @@ func _physics_process(delta: float) -> void:
 	if energy == 0.0: 
 		on_player_no_energy.emit()
 		
-
 	set_color_screen()
 	animations_player()
 	move_and_slide()
@@ -129,7 +134,7 @@ func calculate_reserves(less_energy: float) -> void:
 	else: 
 		input_right = false
 		input_left = true
-
+		
 func animations_player() -> void:
 	if crushed:
 		anim_robot.play("corpse")

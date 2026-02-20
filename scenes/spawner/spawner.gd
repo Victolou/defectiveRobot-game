@@ -38,13 +38,7 @@ func stop() -> void:
 		for t in target_types:
 			if is_instance_of(child, t):
 				child.set_move_speed(0)
-				child.set_extra_speed(0)
 				break
-
-func set_extra_speed_to_waste(value: float) -> void:
-	for child in get_children():
-		if is_instance_of(child, Waste):
-			child.set_extra_speed(value)
 
 #WASTE
 func spawn_waste() -> void:
@@ -104,6 +98,7 @@ func _on_player_start_advancing() -> void:
 	for child in get_children():
 		if child is Waste:
 			child.set_can_move(true)
+			child.can_move_duration.start()
 
 func _on_player_stop_advancing() -> void:
 	for child in get_children():

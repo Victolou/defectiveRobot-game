@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://veqtti8d2pyy"
-path="res://.godot/imported/background.png-cf464fb10574ba469ff235ca284c4ef7.ctex"
+uid="uid://vaeiusprdnxk"
+path="res://.godot/imported/top_creats.png-6017c568245ab251f684fee078789799.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/environment/background.png"
-dest_files=["res://.godot/imported/background.png-cf464fb10574ba469ff235ca284c4ef7.ctex"]
+source_file="res://assets/sprites/environment/conveyor_bel/top_creats.png"
+dest_files=["res://.godot/imported/top_creats.png-6017c568245ab251f684fee078789799.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bi6mvhk24ilsm"
-path="res://.godot/imported/lower_conveyor_bel.png-cf04608199f6cfb8e28a0776cc75cda0.ctex"
+uid="uid://dpuelbk7twg01"
+path="res://.godot/imported/shadow_lower_conveyor_bel.png-a900df7f99182052804240485f930749.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/environment/lower_conveyor_bel.png"
-dest_files=["res://.godot/imported/lower_conveyor_bel.png-cf04608199f6cfb8e28a0776cc75cda0.ctex"]
+source_file="res://assets/sprites/environment/conveyor_bel/shadow_lower_conveyor_bel.png"
+dest_files=["res://.godot/imported/shadow_lower_conveyor_bel.png-a900df7f99182052804240485f930749.ctex"]
 
 [params]
 

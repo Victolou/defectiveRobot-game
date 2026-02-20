@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bxhjt63t2cvic"]
+
+[ext_resource type="Texture2D" uid="uid://vaeiusprdnxk" path="res://assets/sprites/environment/conveyor_bel/top_creats.png" id="1_nrmrm"]
+[ext_resource type="Script" uid="uid://c3y7yb10aro2p" path="res://scenes/conveyor_belt/conveyor_belt.gd" id="1_ysxht"]
+[ext_resource type="Texture2D" uid="uid://b7xnm5f5u3ser" path="res://assets/sprites/environment/conveyor_bel/bottom_creats.png" id="2_eigut"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7x3f"]
+size = Vector2(1280, 144)
+
+[node name="conveyorBelt" type="Node2D" unique_id=1825079914]
+z_index = 1
+script = ExtResource("1_ysxht")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1669106151]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1491146539]
+shape = SubResource("RectangleShape2D_v7x3f")
+one_way_collision = true
+
+[node name="TopCleats" type="Node2D" parent="." unique_id=251643242]
+
+[node name="T1" type="Sprite2D" parent="TopCleats" unique_id=173724968]
+unique_name_in_owner = true
+position = Vector2(0, -67)
+texture = ExtResource("1_nrmrm")
+
+[node name="T2" type="Sprite2D" parent="TopCleats" unique_id=990552192]
+unique_name_in_owner = true
+position = Vector2(1280, -67)
+texture = ExtResource("1_nrmrm")
+
+[node name="BottomCreats" type="Node2D" parent="." unique_id=74678338]
+
+[node name="B1" type="Sprite2D" parent="BottomCreats" unique_id=1126572724]
+unique_name_in_owner = true
+position = Vector2(0, 67)
+texture = ExtResource("2_eigut")
+
+[node name="B2" type="Sprite2D" parent="BottomCreats" unique_id=1326699994]
+unique_name_in_owner = true
+position = Vector2(1280, 67)
+texture = ExtResource("2_eigut")
+
+[node name="CanMoveDuration" type="Timer" parent="." unique_id=199894745]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="CanMoveDuration" to="." method="_on_can_move_duration_timeout"]
