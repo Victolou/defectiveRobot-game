@@ -7,10 +7,10 @@
 size = Vector2(4, 881)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sq5ym"]
-size = Vector2(3, 879)
+size = Vector2(3, 879.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugydg"]
-size = Vector2(1316.3, 87.5)
+size = Vector2(613.4807, 75.03813)
 
 [node name="crushed" type="Node2D" unique_id=1337570028]
 z_index = 2
@@ -34,7 +34,7 @@ collision_layer = 4
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="lowering" unique_id=1160106050]
-position = Vector2(289.5, 189.5)
+position = Vector2(-5, 189.25)
 shape = SubResource("RectangleShape2D_sq5ym")
 
 [node name="crushing" type="Area2D" parent="." unique_id=225152974]
@@ -44,7 +44,8 @@ collision_layer = 32
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="crushing" unique_id=23357097]
-position = Vector2(18.527998, 129.23198)
+position = Vector2(21.616018, 242.83177)
+scale = Vector2(1.000003, 1)
 shape = SubResource("RectangleShape2D_ugydg")
 debug_color = Color(0.15815, 0.322739, 0.146502, 0.42)
 

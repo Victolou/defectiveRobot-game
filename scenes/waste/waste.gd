@@ -1,10 +1,12 @@
 class_name Waste extends Node2D
 
 signal on_player_crash
+signal on_waste_deleted
 
 @onready var animated_waste: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_duration: Timer = $AnimationDuration
 @onready var can_move_duration: Timer = $CanMoveDuration
+@onready var area_2d: Area2D = $Area2D
 @onready var colision_a: CollisionPolygon2D = %ColisionA
 @onready var colision_b: CollisionPolygon2D = %ColisionB
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
@@ -23,15 +25,30 @@ var color_number: int = 0
 
 var can_move: bool = false
 
+var game_over: bool = false
+var area_deleted: bool = false
 var change_sprite = false
 var is_crusher: bool = false
+
+var animations_setup_complete: bool = false
+var animation_crusher: String
 var run_animation: bool = false
 var value_animation: int = 0
 
+func _ready() -> void:
+	move_speed = GLOBAL.velocity
+	
 func _process(delta: float) -> void:
 	set_color()
-	if can_move:
-		position.x -= GLOBAL.velocity * delta
+	
+	if (is_crusher or game_over) and not area_deleted:
+		if area_2d:
+			area_2d.queue_free()
+		area_deleted = true
+		
+	if can_move and not game_over:
+		position.x -= move_speed * delta
+		
 	set_animation(value_animation)
 	
 func set_color() -> void:
@@ -42,29 +59,35 @@ func set_color() -> void:
 	
 func set_animation(value: int) -> void:	
 	var value_str = str(value)
-	if not is_crusher:
+	
+	if not animations_setup_complete: 
+		if value in [0, 1]:
+			colision_a.set_deferred("disabled", false)
+			colision_b.set_deferred("disabled", true)
+			animation_crusher = "4_"
+		else:
+			colision_a.set_deferred("disabled", true)
+			colision_b.set_deferred("disabled", false)
+			animation_crusher = "5_"
+		
+		if value in [0, 3]:
+			animated_waste.get_parent().scale.x = -1
+			visible_on_screen_notifier_2d.position = Vector2(-98.00, 2.00)
+		else:
+			animated_waste.get_parent().scale.x = 1
+			visible_on_screen_notifier_2d.position = Vector2(98.00, 2.00)
+		animations_setup_complete = true
+		
+	if not is_crusher and not game_over:
 		animated_waste.animation = value_str + "_" + colors[color_number]
 	else:
-		animated_waste.animation = "4_" + colors[color_number]
-		animated_waste.animation = "5_" + colors[color_number]
-		
-	if value in [0, 1]:
-		colision_a.set_deferred("disabled", false)
-		colision_b.set_deferred("disabled", true)
-	else:
-		colision_a.set_deferred("disabled", true)
-		colision_b.set_deferred("disabled", false)
-	
-	if value in [0, 3]:
-		animated_waste.get_parent().scale.x = -1
-		visible_on_screen_notifier_2d.position = Vector2(-98.00, 2.00)
-	else:
-		animated_waste.get_parent().scale.x = 1
-		visible_on_screen_notifier_2d.position = Vector2(98.00, 2.00)
+		animated_waste.animation = animation_crusher + colors[color_number]
 		
 	if run_animation:
 		if not is_crusher:
 			animated_waste.play(value_str +"_"+ colors[color_number])
+		else:
+			animated_waste.play(animation_crusher + colors[color_number])
 	else:
 		animated_waste.frame = 0
 	
@@ -74,7 +97,11 @@ func set_move_speed(value: float) -> void:
 func set_can_move(value: bool) -> void:
 	can_move = value
 	
+func it_is_gamer_over() -> void:
+	game_over = true
+	
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	on_waste_deleted.emit()
 	queue_free()
 	
 func _on_animation_duration_timeout() -> void:

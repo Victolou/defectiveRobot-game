@@ -56,4 +56,3 @@ func change_bottom_direction(value: String) -> void:
 	
 func _on_can_move_duration_timeout() -> void:
 	can_move = false
-	change_bottom_direction("left")

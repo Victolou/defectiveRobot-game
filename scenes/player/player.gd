@@ -28,7 +28,6 @@ var energy_percentage
 
 var player_running: bool = false
 var has_player_landed: bool= false
-var trapped = false
 var has_crashed = false
 var was_on_floor: bool = false
 
@@ -45,12 +44,20 @@ var crushed: bool = false
 
 @onready var timer_drop: Timer = $Drop
 @onready var timer: Timer = $Timer
+
 var is_moving_recently: bool = false
-var variable: bool = true
 
 func _physics_process(delta: float) -> void:
 	if player_running == false:
 		return
+		
+	if crushed:
+		on_player_has_stopped_on_the_stage.emit()
+		death_played = true
+		position.y = 360.0
+		if has_node("screen"):
+			var screen_node = get_node("screen")
+			screen_node.queue_free()
 		
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -65,7 +72,7 @@ func _physics_process(delta: float) -> void:
 		if not has_touched_floor:
 			has_touched_floor = true
 			
-	if is_on_floor() and (energy > 0 and !trapped) and not death_played:
+	if is_on_floor() and (energy > 0 and !crushed) and not death_played:
 		if not was_on_floor:
 			has_player_landed = true
 			on_landed_player.emit()
@@ -93,10 +100,9 @@ func _physics_process(delta: float) -> void:
 			limit_advancing +=1
 			
 		#Reset SOLO si está en el suelo y quieto
-		if is_on_floor() and not Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
-			on_player_has_stopped_on_the_stage.emit()
+		if is_on_floor() and not Input.is_action_just_released("left") and not Input.is_action_just_released("right") and not is_moving_recently:
 			on_player_stop_advancing.emit()
-			
+			on_player_has_stopped_on_the_stage.emit()
 			
 		if limit_advancing > 10:
 			on_player_limit_advancing.emit()
@@ -108,8 +114,11 @@ func _physics_process(delta: float) -> void:
 		input_jump = false
 		if timer_drop.is_stopped():
 			timer_drop.start()
+			timer_drop.wait_time += 0.2
 			
 	if energy == 0.0: 
+		death_played = true
+		on_player_stop_advancing.emit()
 		on_player_no_energy.emit()
 		
 	set_color_screen()
@@ -119,9 +128,9 @@ func _physics_process(delta: float) -> void:
 func set_running() -> void:
 	player_running = !player_running
 
-func set_trapped():
-	trapped = !trapped
-
+func is_crushed():
+	crushed = true
+		
 func recover_energy(value: float) -> void:
 	energy = min(energy + value, energy_limit)
 		
@@ -137,28 +146,24 @@ func calculate_reserves(less_energy: float) -> void:
 		
 func animations_player() -> void:
 	if crushed:
-		anim_robot.play("corpse")
+		anim_robot.play("corpseC")
 		return
-	
-	if death_played:
-		return
-	
+		
 	if energy == 0:
-		set_animation("death")
-		death_played = true
-		on_player_stop_advancing.emit()
+		if anim_robot.animation != "death":
+			set_animation("death")
 		return
-	
+		
 	if has_crashed:
 		if anim_robot.animation != "drop":
 			set_animation("drop")
 			return
-	
+		
 	if not is_on_floor() and velocity.y > 0 and not has_touched_floor and has_crashed == false:
 		set_animation("jump", false, 3)
 		return
 	
-	if is_on_floor() and (energy > 0 and !trapped) and has_crashed == false:
+	if is_on_floor() and (energy > 0 and !crushed) and has_crashed == false:
 		if Input.is_action_just_pressed("jump"):
 			set_animation("jump")
 		elif is_moving_recently:

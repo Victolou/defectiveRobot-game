@@ -353,6 +353,14 @@ animations = [{
 atlas = ExtResource("4_75vfm")
 region = Rect2(376, 336, 376, 336)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_46q5t"]
+atlas = ExtResource("4_75vfm")
+region = Rect2(0, 672, 376, 336)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ws0t6"]
+atlas = ExtResource("4_75vfm")
+region = Rect2(376, 672, 376, 336)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_3j4b4"]
 atlas = ExtResource("2_gmlin")
 region = Rect2(0, 694, 290, 347)
@@ -539,8 +547,24 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_s050l")
 }],
-"loop": true,
-"name": &"corpse",
+"loop": false,
+"name": &"corpseA",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46q5t")
+}],
+"loop": false,
+"name": &"corpseB",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ws0t6")
+}],
+"loop": false,
+"name": &"corpseC",
 "speed": 5.0
 }, {
 "frames": [{
@@ -717,7 +741,7 @@ script = ExtResource("1_dovo2")
 modulate = Color(1, 0, 0, 1)
 scale = Vector2(0.176, 0.176)
 sprite_frames = SubResource("SpriteFrames_iwuka")
-animation = &"death"
+animation = &"drop"
 
 [node name="robot" type="AnimatedSprite2D" parent="." unique_id=2076442602]
 scale = Vector2(0.175862, 0.175862)

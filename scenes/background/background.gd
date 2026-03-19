@@ -2,7 +2,6 @@ class_name Background extends ParallaxBackground
 
 @onready var layer0: ParallaxLayer = $layer0
 @onready var layer1: ParallaxLayer = $layer1
-@onready var has_stopped: Timer = $HasStopped
 
 enum direction { left = -1, right = 1 }
 
@@ -14,6 +13,9 @@ var is_layer1_running := false
 
 var layer0_direction: int = 1
 var layer1_direction: int = 1
+
+func _ready():
+	layer1.motion_offset.x = 800
 
 func _process(delta):
 	if is_layer0_running:
@@ -31,10 +33,10 @@ func moving(parallax_layer: ParallaxLayer, delta: float):
 	var this_direction;
 	
 	if parallax_layer == layer0:
-		speed = Vector2(GLOBAL.speed, 0) + Vector2(extra_speed_layer0, 0)
+		speed = Vector2((GLOBAL.speed + 50), 0) + Vector2(extra_speed_layer0, 0)
 		this_direction = layer0_direction
 	elif parallax_layer == layer1:
-		speed = Vector2((GLOBAL.speed - 150), 0) + Vector2(extra_speed_layer1, 0)
+		speed = Vector2((GLOBAL.speed - 100), 0) + Vector2(extra_speed_layer1, 0)
 		this_direction = layer1_direction
 	
 	parallax_layer.motion_offset.x += speed.x * this_direction * delta
@@ -60,7 +62,3 @@ func set_extra_speed_layer0(value: float):
 
 func set_extra_speed_layer1(value: float):
 	extra_speed_layer1 = value
-
-func _on_has_stopped_timeout() -> void:
-	change_layer0_direction("right")
-	change_layer1_direction("right")

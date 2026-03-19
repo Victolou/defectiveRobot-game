@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dc0howu75tr8v" path="res://scenes/crusher/crusher.tscn" id="3_k2fmo"]
 [ext_resource type="PackedScene" uid="uid://b8jyydq6ipjr3" path="res://scenes/spawner/spawner.tscn" id="5_b1x3f"]
 [ext_resource type="PackedScene" uid="uid://dl6iygbqmlytq" path="res://scenes/background/background.tscn" id="6_ow5a4"]
+[ext_resource type="PackedScene" uid="uid://c68m4cbet88o3" path="res://scenes/game_over/game_over.tscn" id="9_a8run"]
 [ext_resource type="PackedScene" uid="uid://bxhjt63t2cvic" path="res://scenes/conveyor_belt/conveyor_belt.tscn" id="9_b1x3f"]
 
 [node name="main" type="Node2D" unique_id=1226028120]
@@ -23,10 +24,10 @@ position = Vector2(640, -95)
 PLAYER_NODE = NodePath("../player")
 
 [node name="conveyorBelt" parent="." unique_id=1825079914 instance=ExtResource("9_b1x3f")]
-position = Vector2(640, 527)
+position = Vector2(640, 491)
 
 [node name="crusher" parent="." unique_id=1602382721 instance=ExtResource("3_k2fmo")]
-position = Vector2(-640, 7)
+position = Vector2(0, -100)
 
 [node name="home" parent="." unique_id=156140745 instance=ExtResource("2_hujxm")]
 anchors_preset = 8
@@ -38,6 +39,8 @@ offset_left = 648.0
 offset_top = 318.0
 offset_right = 648.0
 offset_bottom = 318.0
+
+[node name="game_over" parent="." unique_id=1784060796 instance=ExtResource("9_a8run")]
 
 [node name="Timer" type="Timer" parent="." unique_id=112433040]
 

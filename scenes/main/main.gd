@@ -7,6 +7,7 @@ class_name Main extends Node2D
 @onready var conveyor_belt: ConveyorBelt = $conveyorBelt
 @onready var stats: Stats = $stats
 @onready var spawner: Spawner = $spawner
+@onready var game_over: gameOver = $game_over
 
 var game_speed: = 0
 
@@ -53,22 +54,14 @@ func _on_player_on_player_no_energy() -> void:
 	crusher.set_external_pushback(0.0)
 	background.change_layer0_direction("right")
 	background.change_layer1_direction("right")
+	conveyor_belt.change_bottom_direction("left")
 	
 func _on_crusher_on_player_end() -> void:
-	player.death_played = true
-	player.crushed = true
-	player.position.y = 395.0
-	
-	if player.has_node("screen"):
-		var screen_node = player.get_node("screen")
-		screen_node.queue_free()
-		
+	game_over.disappear()
+	player.is_crushed()
 	crusher.kill_player()
-	player.set_trapped()
-	spawner.stop()
-	conveyor_belt.is_stopping(true)
-	background.playings_layers(false)
-
+	spawner.it_is_game_over()
+	
 func _on_player_on_player_jumps_on_the_stage() -> void:
 	background.playings_layers(false)
 	

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c6dy8jnyw08bx" path="res://scenes/battery/battery.gd" id="1_5d3fe"]
 [ext_resource type="Texture2D" uid="uid://jy2go7u86ybu" path="res://assets/sprites/entitles/battery/battery.png" id="2_n4s2d"]
-[ext_resource type="Texture2D" uid="uid://b7rywjpjybylj" path="res://assets/sprites/entitles/battery/guy0_battery.png" id="3_n4s2d"]
+[ext_resource type="Texture2D" uid="uid://b7rywjpjybylj" path="res://assets/sprites/entitles/battery/face0_battery.png" id="3_n4s2d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g32y3"]
 atlas = ExtResource("2_n4s2d")
@@ -58,30 +58,30 @@ animations = [{
 radius = 19.0
 height = 64.0
 
-[node name="battery" type="Node2D"]
+[node name="battery" type="Node2D" unique_id=777975595]
 scale = Vector2(1.27507, 1.27507)
 script = ExtResource("1_5d3fe")
 
-[node name="body" type="AnimatedSprite2D" parent="."]
+[node name="body" type="AnimatedSprite2D" parent="." unique_id=1252868195]
 position = Vector2(-0.0312495, 1)
 scale = Vector2(0.188809, 0.187105)
 sprite_frames = SubResource("SpriteFrames_8hyn7")
 animation = &"moving"
 
-[node name="guy" type="Sprite2D" parent="."]
-position = Vector2(-6, -3)
+[node name="face" type="Sprite2D" parent="." unique_id=739871476]
+position = Vector2(5.764061, -3)
 scale = Vector2(0.180233, 0.180233)
 texture = ExtResource("3_n4s2d")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=63518225]
 collision_layer = 16
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2076057308]
 shape = SubResource("CapsuleShape2D_g32y3")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(52, 0)
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1267031147]
+position = Vector2(-48.38665, 0)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

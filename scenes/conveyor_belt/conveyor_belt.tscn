@@ -33,12 +33,12 @@ texture = ExtResource("1_nrmrm")
 
 [node name="B1" type="Sprite2D" parent="BottomCreats" unique_id=1126572724]
 unique_name_in_owner = true
-position = Vector2(0, 67)
+position = Vector2(0, 89)
 texture = ExtResource("2_eigut")
 
 [node name="B2" type="Sprite2D" parent="BottomCreats" unique_id=1326699994]
 unique_name_in_owner = true
-position = Vector2(1280, 67)
+position = Vector2(1280, 89)
 texture = ExtResource("2_eigut")
 
 [node name="CanMoveDuration" type="Timer" parent="." unique_id=199894745]

@@ -9,10 +9,10 @@ signal on_crusher_killPlayer
 @onready var image_crusher: Sprite2D = %imageCrusher
 @onready var reached: Area2D = $reached
 
-@export var move_speed_x: float = 300.0
+@export var move_speed_x: float = 0.0
 @export var move_speed_y: float = 800.0
 @export var upper_limit: float = 0.0
-@export var lower_limit: float = 205.0
+@export var lower_limit: float = 100.0
 @export var left_limit: float = 0.0
 
 var crusher_running: bool = false
@@ -22,13 +22,19 @@ var moving_stop: bool = false
 var external_pushback := 0.0
 var pushback_decay := 10
 
+var player_this_dead: bool = false
+
 func _ready() -> void:
+	move_speed_x = GLOBAL.speed
+	upper_limit = position.y
 	left_limit = -image_crusher.texture.get_width()
 	
 func _process(delta: float) -> void:
-	
 	if crusher_running == false:
 		return
+	
+	if player_this_dead:
+		position.x = -380.0
 	
 	position.x += (move_speed_x * delta) - external_pushback
 	external_pushback = max(external_pushback - pushback_decay * delta, 0)
@@ -46,7 +52,6 @@ func _process(delta: float) -> void:
 		if position.y <= upper_limit:
 			position.y = upper_limit
 			
-	
 	if !moving_stop:
 		if position.y == lower_limit:
 			moving_down = false
@@ -65,6 +70,7 @@ func kill_player() -> void:
 	moving_stop = true
 	move_speed_x = 0
 	moving_down = true
+	player_this_dead = true
 	on_crusher_killPlayer.emit()
 	
 func up_crusher() -> void:
