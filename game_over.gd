@@ -37,7 +37,7 @@ func disappear():
 	tween.tween_interval(0.2)
 	tween.tween_property(face_battery, "position:x", 4.0, 0.2)
 	tween.tween_interval(0.2)
-	tween.tween_property(battery, "position:x", 1300, 1).set_ease(tween.EASE_IN_OUT)
+	tween.tween_property(battery, "position:x", 1450, 1).set_ease(tween.EASE_IN_OUT)
 
 func results_face(value: int) -> void:
 	battery.change_face(value)

@@ -4,6 +4,7 @@ extends CharacterBody2D
 signal on_landed_player
 signal on_back_crusher
 signal on_player_no_energy
+signal on_player_energy_used
 
 signal on_player_limit_advancing
 signal on_player_start_advancing
@@ -18,8 +19,10 @@ signal on_player_jumps_on_the_stage
 @export var max_speed: float = 400.0
 @export var energy_limit: float = 300.0
 @export var energy: float = 300.0
-@export var energy_loss: float = 5
-@export var limit_power_advantage: float = 5
+@export var energy_loss: float = 5.0
+@export var energy_recovered: float = 20.0
+@export var energyChange: int = 0
+@export var limit_power_advantage: float = 5.0
 
 #Tiene que ver con el waste para que avance 
 var limit_advancing: int = 0
@@ -29,11 +32,15 @@ var energy_percentage
 var player_running: bool = false
 var has_player_landed: bool= false
 var has_crashed = false
+var was_in_air = false
+var played_ground_fall = false
 var was_on_floor: bool = false
+var recovering: bool = false
 
 var input_left: bool = false
 var input_right: bool = true
 var input_jump: bool = true
+var input_recovery: bool = true
 
 @onready var anim_screen: AnimatedSprite2D = $screen
 @onready var anim_robot: AnimatedSprite2D = $robot
@@ -42,8 +49,9 @@ var death_played: bool = false
 var has_touched_floor: bool = false
 var crushed: bool = false
 
-@onready var timer_drop: Timer = $Drop
 @onready var timer: Timer = $Timer
+@onready var timer_drop: Timer = $Drop
+@onready var timer_recovery: Timer = $Recovery
 
 var is_moving_recently: bool = false
 
@@ -99,6 +107,20 @@ func _physics_process(delta: float) -> void:
 			on_player_moves_forward_on_the_stage.emit()
 			limit_advancing +=1
 			
+		elif Input.is_action_just_pressed("recovery") and input_recovery:
+			input_recovery = false
+			timer_recovery.start()
+			if energyChange > 0:
+				if not energy > energy_limit:
+					if (energy + energy_recovered) > energy_limit:
+						energy = energy_limit
+					else:
+						energy += energy_recovered
+				recovering = true
+				timer_drop.wait_time -= 0.2
+				on_player_energy_used.emit()
+				energyChange -= 1
+					
 		#Reset SOLO si está en el suelo y quieto
 		if is_on_floor() and not Input.is_action_just_released("left") and not Input.is_action_just_released("right") and not is_moving_recently:
 			on_player_stop_advancing.emit()
@@ -127,13 +149,10 @@ func _physics_process(delta: float) -> void:
 
 func set_running() -> void:
 	player_running = !player_running
-
+	
 func is_crushed():
 	crushed = true
-		
-func recover_energy(value: float) -> void:
-	energy = min(energy + value, energy_limit)
-		
+	
 func calculate_reserves(less_energy: float) -> void:
 	energy -= less_energy
 	
@@ -155,9 +174,24 @@ func animations_player() -> void:
 		return
 		
 	if has_crashed:
-		if anim_robot.animation != "drop":
-			set_animation("drop")
-			return
+		if not is_on_floor():
+			was_in_air = true
+			played_ground_fall = false
+			
+			if anim_robot.animation != "air_fall":
+				set_animation("air_fall")
+		else:
+			# Acaba de tocar el suelo desde el aire
+			if was_in_air and not played_ground_fall:
+				set_animation("ground_fall")
+				played_ground_fall = true
+				was_in_air = false
+			
+			# Solo si NO estamos en la animación de impacto
+			elif not played_ground_fall:
+				if anim_robot.animation != "drop":
+					set_animation("drop")
+		return
 		
 	if not is_on_floor() and velocity.y > 0 and not has_touched_floor and has_crashed == false:
 		set_animation("jump", false, 3)
@@ -205,6 +239,11 @@ func _on_timer_timeout() -> void:
 
 func _on_drop_timeout() -> void:
 	has_crashed = false
+	played_ground_fall = false
 	input_left = true
 	input_right = true
 	input_jump = true
+
+func _on_recovery_timeout() -> void:
+	input_recovery = true
+	recovering = false

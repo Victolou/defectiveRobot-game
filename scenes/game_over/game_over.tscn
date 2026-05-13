@@ -15,5 +15,6 @@ color = Color(0, 0, 0, 1)
 
 [node name="battery" parent="." unique_id=777975595 instance=ExtResource("2_vtso4")]
 unique_name_in_owner = true
+visible = false
 position = Vector2(640, 356.19)
 scale = Vector2(1.275, 1.275)

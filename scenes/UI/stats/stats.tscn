@@ -1,45 +1,106 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0218mdvjdrqi"]
+[gd_scene format=3 uid="uid://c0218mdvjdrqi"]
 
 [ext_resource type="Script" uid="uid://bcbsdt7t3vhd5" path="res://scenes/UI/stats/stats.gd" id="1_hb1ya"]
-[ext_resource type="Texture2D" uid="uid://dne656pv65xye" path="res://assets/sprites/UI/bar/energyBarC.png" id="2_50umo"]
-[ext_resource type="Texture2D" uid="uid://bsp3emfx1g588" path="res://assets/sprites/UI/bar/energyBarA.png" id="3_br1uq"]
-[ext_resource type="Texture2D" uid="uid://dfhq0icqt6bjs" path="res://assets/sprites/UI/bar/energyBarB.png" id="4_fd8bt"]
-[ext_resource type="Texture2D" uid="uid://btncgi3fghvvr" path="res://assets/sprites/UI/bar/energyBarB2.png" id="5_50umo"]
+[ext_resource type="Texture2D" uid="uid://ha88ef0pub3" path="res://assets/sprites/UI/bars/energyA.png" id="2_hb1ya"]
+[ext_resource type="Texture2D" uid="uid://yq12c4trjr5o" path="res://assets/sprites/UI/bars/energyB.png" id="3_50umo"]
+[ext_resource type="Texture2D" uid="uid://clj27wes066gg" path="res://assets/sprites/UI/icons/electricity .png" id="4_br1uq"]
+[ext_resource type="Texture2D" uid="uid://c8ad1uiutfjdk" path="res://assets/sprites/UI/icons/timer.png" id="5_50umo"]
+[ext_resource type="Texture2D" uid="uid://3dkr1d6pbgge" path="res://assets/sprites/UI/icons/speedometer.png" id="6_fd8bt"]
+[ext_resource type="Texture2D" uid="uid://cvwfg2fypo6w8" path="res://assets/sprites/UI/icons/speedometer_needle.png" id="7_hws31"]
 
-[node name="stats" type="CanvasLayer"]
+[node name="stats" type="CanvasLayer" unique_id=44741848]
 script = ExtResource("1_hb1ya")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -521.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
+[node name="Control" type="Control" parent="." unique_id=157762591]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 1255.0
+offset_bottom = 174.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=2072137380]
+layout_mode = 1
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 1255.0
+offset_bottom = 71.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="energyBar" type="TextureProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="GridContainerA" type="GridContainer" parent="Control/MarginContainer" unique_id=516907142]
 unique_name_in_owner = true
 layout_mode = 2
-texture_under = ExtResource("2_50umo")
-texture_over = ExtResource("3_br1uq")
-texture_progress = ExtResource("4_fd8bt")
+size_flags_vertical = 4
+theme_override_constants/h_separation = 20
+columns = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+[node name="energyBar" type="TextureProgressBar" parent="Control/MarginContainer/GridContainerA" unique_id=132790939]
+layout_mode = 2
+texture_over = ExtResource("2_hb1ya")
+texture_progress = ExtResource("3_50umo")
+
+[node name="energyMeter" type="GridContainer" parent="Control/MarginContainer/GridContainerA" unique_id=251494267]
+layout_mode = 2
+columns = 2
+
+[node name="count" type="Label" parent="Control/MarginContainer/GridContainerA/energyMeter" unique_id=98929379]
+layout_mode = 2
+size_flags_vertical = 8
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/GridContainerA/energyMeter" unique_id=2128583084]
+layout_mode = 2
+texture = ExtResource("4_br1uq")
+
+[node name="timer" type="GridContainer" parent="Control/MarginContainer/GridContainerA" unique_id=530989021]
+layout_mode = 2
+columns = 2
+
+[node name="count" type="Label" parent="Control/MarginContainer/GridContainerA/timer" unique_id=1111370203]
+layout_mode = 2
+size_flags_vertical = 8
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/GridContainerA/timer" unique_id=1036154604]
+layout_mode = 2
+texture = ExtResource("5_50umo")
+
+[node name="GridContainerB" type="GridContainer" parent="Control/MarginContainer" unique_id=1664471943]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/h_separation = 20
+columns = 3
 
-[node name="velocityBar" type="TextureProgressBar" parent="MarginContainer/VBoxContainer2"]
-unique_name_in_owner = true
+[node name="conometer" type="Label" parent="Control/MarginContainer/GridContainerB" unique_id=2076594704]
 layout_mode = 2
-step = 0.0
-texture_under = ExtResource("2_50umo")
-texture_over = ExtResource("3_br1uq")
-texture_progress = ExtResource("5_50umo")
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "00:00:00"
+
+[node name="speedometer" type="TextureRect" parent="Control/MarginContainer/GridContainerB" unique_id=1978755050]
+layout_mode = 2
+texture = ExtResource("6_fd8bt")
+stretch_mode = 4
+
+[node name="needle" type="TextureRect" parent="Control/MarginContainer/GridContainerB/speedometer" unique_id=2011895507]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.822
+anchor_right = 0.5
+anchor_bottom = 0.822
+offset_left = -20.0
+offset_top = -27.880001
+offset_right = 20.0
+offset_bottom = 12.119999
+grow_horizontal = 2
+grow_vertical = 0
+rotation = -1.4062058
+pivot_offset = Vector2(20.5, 27.2)
+texture = ExtResource("7_hws31")
+stretch_mode = 3

@@ -10,10 +10,11 @@ class_name Main extends Node2D
 @onready var game_over: gameOver = $game_over
 
 var game_speed: = 0
+var total_time: String
 
 func _ready() -> void:
 	stats.hide()
-	stats.set_bars_max_limits(player.energy, player.limit_power_advantage)
+	stats.set_bar_max_limit(player.energy)
 	
 func _process(_delta: float) -> void:
 	if not player.death_played:
@@ -26,6 +27,7 @@ func _on_home_on_start_game() -> void:
 	player.set_running()
 
 func _on_player_on_landed_player() -> void:
+	stats.set_running_conometer(true)
 	crusher.set_running()
 	background.set_running()
 	conveyor_belt.set_running()
@@ -44,22 +46,31 @@ func _on_crusher_on_waste_lowering() -> void:
 	crusher.lower_crusher()
 
 func _on_spawner_on_waste_crash() -> void:
+	stats.update_counts("timer", 1)
 	player.has_crashed = true
 	
 func _on_spawner_on_battery_crash() -> void:
-	stats.update_energy_bar(20, true)
-	player.recover_energy(20)
+	player.energyChange += 1
+	stats.update_counts("energyMeter", 1)
+	
+func _on_player_on_player_energy_used() -> void:
+	stats.update_energy_bar(player.energy_recovered, true)
+	stats.update_counts("energyMeter", 1, false)
+	stats.update_counts("timer", 1, false)
 	
 func _on_player_on_player_no_energy() -> void:
+	total_time = stats.final_meter()
 	crusher.set_external_pushback(0.0)
 	background.change_layer0_direction("right")
 	background.change_layer1_direction("right")
 	conveyor_belt.change_bottom_direction("left")
 	
 func _on_crusher_on_player_end() -> void:
+	stats.set_running_conometer(false)
 	game_over.disappear()
 	player.is_crushed()
 	crusher.kill_player()
+	stats.hide()
 	spawner.it_is_game_over()
 	
 func _on_player_on_player_jumps_on_the_stage() -> void:

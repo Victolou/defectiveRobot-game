@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jy2go7u86ybu"
-path="res://.godot/imported/battery.png-13866f5ef853ff5404a20d1464f5d6ed.ctex"
+uid="uid://cvwfg2fypo6w8"
+path="res://.godot/imported/speedometer_needle.png-bfb7a20af52544b5f89e9e167c4e590f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/entitles/battery/battery.png"
-dest_files=["res://.godot/imported/battery.png-13866f5ef853ff5404a20d1464f5d6ed.ctex"]
+source_file="res://assets/sprites/UI/icons/speedometer_needle.png"
+dest_files=["res://.godot/imported/speedometer_needle.png-bfb7a20af52544b5f89e9e167c4e590f.ctex"]
 
 [params]
 

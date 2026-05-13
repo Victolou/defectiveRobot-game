@@ -46,6 +46,7 @@ offset_bottom = 318.0
 
 [connection signal="on_back_crusher" from="player" to="." method="_on_player_on_back_crusher"]
 [connection signal="on_landed_player" from="player" to="." method="_on_player_on_landed_player"]
+[connection signal="on_player_energy_used" from="player" to="." method="_on_player_on_player_energy_used"]
 [connection signal="on_player_has_stopped_on_the_stage" from="player" to="." method="_on_player_on_player_has_stopped_on_the_stage"]
 [connection signal="on_player_jumps_on_the_stage" from="player" to="." method="_on_player_on_player_jumps_on_the_stage"]
 [connection signal="on_player_moves_forward_on_the_stage" from="player" to="." method="_on_player_on_player_moves_forward_on_the_stage"]

@@ -1778,7 +1778,7 @@ script = ExtResource("1_4o30g")
 position = Vector2(1.5837884, -8.121502)
 scale = Vector2(0.37311822, 0.37311828)
 sprite_frames = SubResource("SpriteFrames_4xfhn")
-animation = &"5_magenta"
+animation = &"1_red"
 
 [node name="Area2D" type="Area2D" parent="." unique_id=455557536]
 collision_layer = 8
@@ -1786,7 +1786,7 @@ collision_mask = 38
 
 [node name="ColisionA" type="CollisionPolygon2D" parent="Area2D" unique_id=1578426917]
 unique_name_in_owner = true
-polygon = PackedVector2Array(-1, 1, 2, -1, 3, -2, 5, -4, 7, -7, 0, -13, 0, -16, -2, -25, 8, -39, 17, -39, 20, -42, 21, -43, 24, -42, 33, -37, 55, -19, 55, -16, 36, 11, 42, 16, 41, 24, 45, 26, 51, 17, 52, 17, 51, 34, -2, 33, -9, 22, -9, 14)
+polygon = PackedVector2Array(-1, 1, 2, -1, 3, -2, 5, -4, 7, -7, 0, -13, 0, -16, -1, -24, 9, -38, 18, -39, 20, -41, 21, -42, 24, -41, 33, -36, 54, -19, 54, -16, 36, 10, 42, 16, 41, 24, 45, 26, 51, 17, 52, 17, 51, 34, -2, 33, -9, 22, -9, 14)
 
 [node name="ColisionB" type="CollisionPolygon2D" parent="Area2D" unique_id=1176954402]
 unique_name_in_owner = true

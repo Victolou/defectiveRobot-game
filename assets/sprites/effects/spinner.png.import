@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btncgi3fghvvr"
-path="res://.godot/imported/energyBarB2.png-fb18b722008dcc73d5363544616cfaca.ctex"
+uid="uid://7daoffmvj7ig"
+path="res://.godot/imported/spinner.png-86eef9154d656ccfe12c84f368a43ea8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/UI/bar/energyBarB2.png"
-dest_files=["res://.godot/imported/energyBarB2.png-fb18b722008dcc73d5363544616cfaca.ctex"]
+source_file="res://assets/sprites/effects/spinner.png"
+dest_files=["res://.godot/imported/spinner.png-86eef9154d656ccfe12c84f368a43ea8.ctex"]
 
 [params]
 

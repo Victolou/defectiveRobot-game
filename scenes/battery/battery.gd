@@ -9,6 +9,7 @@ const GUY_1_BATTERY = preload("res://assets/sprites/entitles/battery/face1_batte
 const GUY_2_BATTERY = preload("res://assets/sprites/entitles/battery/face2_battery.png")
 const GUY_3_BATTERY = preload("res://assets/sprites/entitles/battery/face3_battery.png")
 
+var touched_By_player = false
 var extra_speed: float = 0.0
 var game_over: bool = false
 
@@ -26,7 +27,8 @@ func _process(delta: float) -> void:
 		queue_free()
 	
 	position.x += move_speed * delta
-	body.play("moving")
+	if not touched_By_player:
+		body.play("moving")
 	
 func set_move_speed(value: float) -> void:
 	move_speed = value
@@ -40,10 +42,16 @@ func set_extra_speed(value: float):
 func _on_area_2d_body_entered(other_body: Node2D) -> void:
 	if other_body is Player:
 		on_player_crash.emit()
+		touched_By_player = true
+		move_speed = 0
+		get_node("face").queue_free()
+		body.play("fading")
+		await body.animation_finished
 		queue_free()
-
+		
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 
 func change_face(value: int) -> void:
 	get_node("face").texture = faces[value]
+	
